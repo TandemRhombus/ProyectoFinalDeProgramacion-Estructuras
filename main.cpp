@@ -29,7 +29,7 @@ public:
 class Grid {
 private:
     int M, N;
-    vector<std::vector<char>> matrix;
+    vector<vector<char>> matrix;
 
 public:
     Grid(int M, int N) : M(M), N(N), matrix(M, vector<char>(N, 'o')) {}

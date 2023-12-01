@@ -1,0 +1,12 @@
+# ninja log v5
+3	655	7231648323046832	build.ninja	5a6faaa70e62fa28
+0	717	7231648330455831	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
+718	916	7231648332419462	ProyectoFinalDeProgramacion_Estructuras.exe	599d500e5a01335
+2	701	7231650455502706	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
+701	1034	7231650458818960	ProyectoFinalDeProgramacion_Estructuras.exe	599d500e5a01335
+3	553	7231651187108620	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
+553	743	7231651188989503	ProyectoFinalDeProgramacion_Estructuras.exe	599d500e5a01335
+4	662	7231652219771462	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
+663	867	7231652221800061	ProyectoFinalDeProgramacion_Estructuras.exe	599d500e5a01335
+3	436	7231653250417370	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
+436	610	7231653252136253	ProyectoFinalDeProgramacion_Estructuras.exe	599d500e5a01335

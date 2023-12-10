@@ -3,8 +3,21 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <queue>
+#include <utility>
 
 using namespace std;
+
+//Prototipos
+class Position;
+class Obstacle;
+class Grid;
+class FileParser;
+
+//prototipos de funciones
+vector<pair<int, int>> findPath(const Grid& grid, const Position& start, const Position& goal);
+void writePathToFile(const string& filename, const vector<pair<int, int>>& path);
+void printFileContent(const string& filename);
 
 class Position {
 public:
@@ -28,10 +41,10 @@ public:
 
 class Grid {
 private:
-    int M, N;
-    vector<vector<char>> matrix;
 
 public:
+    int M, N;
+    vector<vector<char>> matrix;
     Grid(int M, int N) : M(M), N(N), matrix(M, vector<char>(N, 'o')) {}
 
     void placeTom(const Position& tom) {
@@ -68,6 +81,13 @@ public:
             output += '\n';
         }
         return output;
+    }
+
+    void markPath(const vector<pair<int, int>>& path) {
+        for (const auto& p : path) {
+            if(matrix[p.first - 1][p.second - 1] == 'o') // Verificar que no sobreescriba a Tom o Jerry
+                matrix[p.first - 1][p.second - 1] = '.';  // Marcamos el camino en la cuadrícula
+        }
     }
 };
 
@@ -184,6 +204,81 @@ int main() {
         FileParser::writeOutputFile("TOM1.RES", grid.toString());
         cout << grid.toString() << endl;
     }
+    cout << endl;
+    vector<pair<int, int>> path = findPath(grid, tom, jerry);
 
+    // Imprimir y escribir la ruta en el archivo "TOM2.RES"
+    writePathToFile("TOM2.RES", path);
+    for (const auto& p : path) {
+        cout << p.first << " " << p.second << "\n";
+        grid.matrix[p.first - 1][p.second - 1] = '.';  // Marcamos el camino en la cuadrícula
+    }
+
+    // Llamar a la función para imprimir el contenido del archivo "TOM2.RES"
+    printFileContent("TOM2.RES");
     return 0;
+}
+
+vector<pair<int, int>> findPath(const Grid& grid, const Position& start, const Position& goal) {
+    vector<vector<bool>> visited(grid.M, vector<bool>(grid.N, false));
+    queue<pair<Position, vector<pair<int, int>>>> q;
+
+    // Direcciones de movimiento (arriba, abajo, izquierda, derecha)
+    vector<pair<int, int>> directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+
+    // Inicializa la cola con la posición inicial de Tom
+    q.push({start, {{start.x + 1, start.y + 1}}});  // +1 para ajustar a la representación 1-indexada
+
+    while (!q.empty()) {
+        auto [pos, path] = q.front();
+        q.pop();
+
+        // Si llegamos a Jerry, devolvemos el camino
+        if (pos.x == goal.x && pos.y == goal.y) {
+            return path;
+        }
+
+        for (const auto& dir : directions) {
+            Position next(pos.x + dir.first, pos.y + dir.second);
+            if (grid.isPositionValid(next) && !visited[next.x][next.y] && grid.matrix[next.x][next.y] != 'x') {
+                visited[next.x][next.y] = true;
+                vector<pair<int, int>> new_path = path;
+                new_path.push_back({next.x + 1, next.y + 1});  // +1 para ajustar a la representación 1-indexada
+                q.push({next, new_path});
+            }
+        }
+    }
+
+    // Si no hay camino, devolver una lista vacía
+    return {};
+}
+
+// Función para escribir la ruta en el archivo "TOM2.RES"
+void writePathToFile(const string& filename, const vector<pair<int, int>>& path) {
+    ofstream outputFile(filename);
+    if (!outputFile.is_open()) {
+        cerr << "ERROR: Cannot open output file." << endl;
+        return;
+    }
+    if (path.empty()) {
+        outputFile << "INALCANZABLE";
+    } else {
+        for (const auto& p : path) {
+            outputFile << p.first << " " << p.second << "\n";
+        }
+    }
+    outputFile.close();
+}
+
+void printFileContent(const string& filename) {
+    ifstream file(filename);
+    if (!file.is_open()) {
+        cerr << "ERROR: No se pudo abrir el archivo para lectura." << endl;
+        return;
+    }
+    string line;
+    while (getline(file, line)) {
+        cout << line << endl;
+    }
+    file.close();
 }

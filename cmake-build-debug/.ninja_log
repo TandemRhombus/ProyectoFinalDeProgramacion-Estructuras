@@ -1,12 +1,16 @@
 # ninja log v5
-3	655	7231648323046832	build.ninja	5a6faaa70e62fa28
-0	717	7231648330455831	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
-718	916	7231648332419462	ProyectoFinalDeProgramacion_Estructuras.exe	599d500e5a01335
-2	701	7231650455502706	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
-701	1034	7231650458818960	ProyectoFinalDeProgramacion_Estructuras.exe	599d500e5a01335
-3	553	7231651187108620	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
-553	743	7231651188989503	ProyectoFinalDeProgramacion_Estructuras.exe	599d500e5a01335
-4	662	7231652219771462	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
-663	867	7231652221800061	ProyectoFinalDeProgramacion_Estructuras.exe	599d500e5a01335
+3	655	7236191990853814	build.ninja	5a6faaa70e62fa28
 3	436	7231653250417370	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
 436	610	7231653252136253	ProyectoFinalDeProgramacion_Estructuras.exe	599d500e5a01335
+4	680	7239419506901276	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Obstaculo.cpp.obj	b9eabb276cfb5ce0
+143	855	7239419507151723	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Archivos.cpp.obj	8bf20adc4962412c
+176	856	7239419508327363	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Red.cpp.obj	9c8710be3d8d7596
+167	856	7239419508959476	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Posicion.cpp.obj	1ecf0cf5a8c40577
+132	1307	7239419513893728	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
+1308	1896	7239419519636926	ProyectoFinalDeProgramacion_Estructuras.exe	1c21d917a17a5840
+5	711	7239429880753061	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
+712	1013	7239429883757586	ProyectoFinalDeProgramacion_Estructuras.exe	1c21d917a17a5840
+2	1081	7239433183380366	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
+1082	1357	7239433186107908	ProyectoFinalDeProgramacion_Estructuras.exe	1c21d917a17a5840
+2	827	7239435194596542	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
+828	1149	7239435197786485	ProyectoFinalDeProgramacion_Estructuras.exe	1c21d917a17a5840

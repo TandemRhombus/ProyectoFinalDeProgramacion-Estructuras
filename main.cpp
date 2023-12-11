@@ -5,6 +5,7 @@
 #include <string>
 #include <queue>
 #include <utility>
+#include <algorithm>
 
 using namespace std;
 
@@ -18,6 +19,14 @@ class FileParser;
 vector<pair<int, int>> findPath(const Grid& grid, const Position& start, const Position& goal);
 void writePathToFile(const string& filename, const vector<pair<int, int>>& path);
 void printFileContent(const string& filename);
+
+//prototipos de structs
+struct Node {
+    int x, y, dist;
+    Node* parent;
+
+    Node(int x, int y, int dist, Node* parent) : x(x), y(y), dist(dist), parent(parent) {}
+};
 
 class Position {
 public:
@@ -88,6 +97,10 @@ public:
             if(matrix[p.first - 1][p.second - 1] == 'o') // Verificar que no sobreescriba a Tom o Jerry
                 matrix[p.first - 1][p.second - 1] = '.';  // Marcamos el camino en la cuadrícula
         }
+    }
+
+    bool isObstacle(const Position& pos) const {
+        return matrix[pos.x][pos.y] == 'x'; // 'x' representa un obstáculo
     }
 };
 
@@ -179,8 +192,10 @@ int main() {
     Position jerry(0, 0);
     vector<Obstacle> obstacles;
 
-    // Verificar si el archivo de entrada existe
     string inputFilename = "TOM1.DAT";
+    string outputFilename = "TOM1.RES";
+
+    // Verificar si el archivo de entrada existe
     ifstream inputFileTest(inputFilename);
     if (!inputFileTest.good()) {
         // El archivo no existe, crear un archivo de prueba
@@ -190,67 +205,88 @@ int main() {
             return 1;
         }
         // Escribir datos de prueba en el archivo
-        outputFileTest << "5 5\n1 1 5 3\n2 1 3 3\n1 4 4 4";
+        outputFileTest << "7 5\n1 2 7 1\n2 1 2 2\n2 4 2 4\n4 2 4 5\n6 1 6 2\n6 4 6 4";
         outputFileTest.close();
         cout << "Se ha creado un archivo de entrada de prueba." << endl;
     }
     inputFileTest.close();
 
-    string error = FileParser::parseInputFile("TOM1.DAT", grid, tom, jerry, obstacles);
+    string error = FileParser::parseInputFile(inputFilename, grid, tom, jerry, obstacles);
     if (!error.empty()) {
-        FileParser::writeOutputFile("TOM1.RES", error);
+        FileParser::writeOutputFile(outputFilename, error);
         cerr << error << endl;
+        return 1; // Terminar si hay un error
     } else {
-        FileParser::writeOutputFile("TOM1.RES", grid.toString());
-        cout << grid.toString() << endl;
-    }
-    cout << endl;
-    vector<pair<int, int>> path = findPath(grid, tom, jerry);
+        //meter la cuadricula en el archivo TOM1.RES
+        FileParser::writeOutputFile(outputFilename, grid.toString());
+        // Copiar el contenido de TOM1.DAT a TOM2.DAT si no hay errores
+        ifstream src(inputFilename, ios::binary);
+        ofstream dst("TOM2.DAT", ios::binary);
+        dst << src.rdbuf();
+        src.close();
+        dst.close();
 
-    // Imprimir y escribir la ruta en el archivo "TOM2.RES"
-    writePathToFile("TOM2.RES", path);
-    for (const auto& p : path) {
-        cout << p.first << " " << p.second << "\n";
-        grid.matrix[p.first - 1][p.second - 1] = '.';  // Marcamos el camino en la cuadrícula
+        // Procesar TOM2.DAT para calcular la ruta más corta
+        inputFilename = "TOM2.DAT";
+        auto outputFilename2 = "TOM2.RES";
+
+        // Se asume que parseInputFile ya ha establecido los valores de grid, tom y jerry
+        vector<pair<int, int>> path = findPath(grid, tom, jerry);
+        writePathToFile(outputFilename2, path);
+        grid.markPath(path);
+
+        //Imprimir el contenido del archivo TOM1.RES
+        printFileContent(outputFilename);
+
+        // Imprimir el contenido del archivo TOM2.RES
+        cout << endl;
+        printFileContent(outputFilename2);
     }
 
-    // Llamar a la función para imprimir el contenido del archivo "TOM2.RES"
-    printFileContent("TOM2.RES");
     return 0;
 }
 
+// Función para encontrar la ruta más corta desde la posición de inicio hasta la posición de destino que consideren los obstáculos, y que TOM solo se puede mover en horizontal o vertical nunca en diagonal
 vector<pair<int, int>> findPath(const Grid& grid, const Position& start, const Position& goal) {
+    queue<Node*> q;
     vector<vector<bool>> visited(grid.M, vector<bool>(grid.N, false));
-    queue<pair<Position, vector<pair<int, int>>>> q;
 
-    // Direcciones de movimiento (arriba, abajo, izquierda, derecha)
-    vector<pair<int, int>> directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    q.push(new Node(start.x, start.y, 0, nullptr));
+    visited[start.x][start.y] = true;
 
-    // Inicializa la cola con la posición inicial de Tom
-    q.push({start, {{start.x + 1, start.y + 1}}});  // +1 para ajustar a la representación 1-indexada
+    int dx[] = {1, -1, 0, 0};
+    int dy[] = {0, 0, 1, -1};
+
+    Node* lastNode = nullptr;
 
     while (!q.empty()) {
-        auto [pos, path] = q.front();
+        Node* current = q.front();
         q.pop();
 
-        // Si llegamos a Jerry, devolvemos el camino
-        if (pos.x == goal.x && pos.y == goal.y) {
-            return path;
+        if (current->x == goal.x && current->y == goal.y) {
+            lastNode = current;
+            break;
         }
 
-        for (const auto& dir : directions) {
-            Position next(pos.x + dir.first, pos.y + dir.second);
-            if (grid.isPositionValid(next) && !visited[next.x][next.y] && grid.matrix[next.x][next.y] != 'x') {
-                visited[next.x][next.y] = true;
-                vector<pair<int, int>> new_path = path;
-                new_path.push_back({next.x + 1, next.y + 1});  // +1 para ajustar a la representación 1-indexada
-                q.push({next, new_path});
+        for (int i = 0; i < 4; i++) {
+            int nx = current->x + dx[i];
+            int ny = current->y + dy[i];
+
+            if (nx >= 0 && nx < grid.M && ny >= 0 && ny < grid.N && !visited[nx][ny] && !grid.isObstacle(Position(nx+1, ny+1))) {
+                visited[nx][ny] = true;
+                q.push(new Node(nx, ny, current->dist + 1, current));
             }
         }
     }
 
-    // Si no hay camino, devolver una lista vacía
-    return {};
+    vector<pair<int, int>> path;
+    while (lastNode) {
+        path.emplace_back(lastNode->x + 1, lastNode->y + 1);  // +1 para ajustar índices
+        lastNode = lastNode->parent;
+    }
+
+    reverse(path.begin(), path.end());
+    return path;
 }
 
 // Función para escribir la ruta en el archivo "TOM2.RES"

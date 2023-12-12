@@ -1,7 +1,4 @@
-oTooo
-xxoxo
-ooooo
-oxxxx
-ooooo
-xxoxo
-Joooo
+Tooo
+ooxo
+oxxo
+oooJ

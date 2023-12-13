@@ -9,8 +9,8 @@ add_executable(ProyectoFinalDeProgramacion_Estructuras
         Obstaculo.h
         Posicion.cpp
         Posicion.h
-        Red.cpp
         Red.h
         Archivos.cpp
         Archivos.h
+        GridViewer.cpp
 )

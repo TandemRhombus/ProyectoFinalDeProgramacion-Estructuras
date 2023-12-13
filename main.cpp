@@ -6,183 +6,12 @@
 #include <utility>
 #include <algorithm>
 #include <map>
+#include "Archivos.h"
+#include "red.h"
+#include "GridViewer.h"
+#include "Posicion.h"
 
 using namespace std;
-
-class Position { // Clase para representar una posición (x, y)
-public:
-    int x, y;
-    Position(int x, int y) : x(x - 1), y(y - 1) {} // Ajuste para índices basados en cero
-
-    // Métodos get
-    int getX() const {
-        return x;
-    }
-
-    int getY() const {
-        return y;
-    }
-};
-
-class Obstacle { // Clase para representar un obstáculo (esquina superior izquierda y esquina inferior derecha)
-public:
-    Position topLeft, bottomRight; // Posición de la esquina superior izquierda y posición de la esquina inferior derecha
-    Obstacle(Position tl, Position br) : topLeft(tl), bottomRight(br) {} // Inicializar obstáculo con la posición de la esquina superior izquierda y la posición de la esquina inferior derecha
-
-    bool overlaps(const Obstacle& other) const { // Función para verificar si un obstáculo se superpone con otro obstáculo
-        return !(topLeft.x > other.bottomRight.x ||
-                 bottomRight.x < other.topLeft.x ||
-                 topLeft.y > other.bottomRight.y ||
-                 bottomRight.y < other.topLeft.y);
-    }
-};
-
-class Grid { // Clase para representar la matriz de celdas (M x N)
-private:
-    int M, N;
-    vector<vector<char>> matrix;
-
-public:
-    Grid(int M, int N) : M(M), N(N), matrix(M, vector<char>(N, 'o')) {} // Inicializar matriz de celdas con 'o's (celdas vacías)
-
-    // Métodos get
-    int getM() const { // Función para obtener el número de filas de la matriz de celdas
-        return M;
-    }
-
-    int getN() const { // Función para obtener el número de columnas de la matriz de celdas
-        return N;
-    }
-
-    char getCell(int x, int y) const { // Función para obtener el valor de una celda en la matriz de celdas
-        return matrix[x][y];
-    }
-
-    // Métodos set
-    void setCell(int x, int y, char value) { // Función para modificar el valor de una celda en la matriz de celdas
-        matrix[x][y] = value;
-    }
-
-    void placeTom(const Position& tom) { // Función para colocar a Tom en la matriz de celdas
-        matrix[tom.getX()][tom.getY()] = 'T';
-    }
-
-    void placeJerry(const Position& jerry) { // Función para colocar a Jerry en la matriz de celdas
-        matrix[jerry.getX()][jerry.getY()] = 'J';
-    }
-
-    bool addObstacle(const Obstacle& obs) { // Función para agregar un obstáculo a la matriz de celdas (si es válido)
-        if (!isPositionValid(obs.topLeft) || !isPositionValid(obs.bottomRight)) {
-            return false;
-        }
-
-        for (int i = obs.topLeft.getX(); i <= obs.bottomRight.getX(); ++i) {
-            for (int j = obs.topLeft.getY(); j <= obs.bottomRight.getY(); ++j) {
-                matrix[i][j] = 'x';
-            }
-        }
-        return true;
-    }
-
-    bool isPositionValid(const Position& pos) const { // Función para verificar si una posición es válida (está dentro de la matriz de celdas)
-        int x = pos.getX();
-        int y = pos.getY();
-        return x >= 0 && x < M && y >= 0 && y < N;
-    }
-
-    string toString() const { // Función para convertir la matriz de celdas a string (para escribirlo en el archivo de salida)
-        string output;
-        for (const auto& row : matrix) {
-            for (char cell : row) {
-                output += cell;
-            }
-            output += '\n';
-        }
-        return output;
-    }
-
-    void markPath(const vector<pair<int, int>>& path) { // Función para marcar el camino de Tom a Jerry en la matriz de celdas
-        for (const auto& p : path) {
-            int x = p.first - 1;
-            int y = p.second - 1;
-            if (matrix[x][y] == 'o') {
-                matrix[x][y] = '.';
-            }
-        }
-    }
-
-    bool isObstacle(const Position& pos) const { // Función para verificar si una posición es un obstáculo
-        int x = pos.getX();
-        int y = pos.getY();
-        return matrix[x][y] == 'x';
-    }
-
-    // Destructor
-    ~Grid() {
-        // Liberar recursos, si es necesario
-    }
-
-    // Función amiga para acceder a miembros privados
-    friend vector<pair<int, int>> findPath(const Grid& grid, const Position& start, const Position& goal);
-};
-
-class FileParser { // Clase para leer el archivo de entrada (TOM1.DAT) y validar los datos de entrada (M, N, Tom, Jerry, obstáculos)
-public:
-    static string parseInputFile(const string& filename, Grid& grid, Position& tom, Position& jerry, vector<Obstacle>& obstacles) {
-        ifstream inputFile(filename);
-        if (!inputFile.is_open()) {
-            return "ERROR: Cannot open input file.";
-        }
-
-        int M, N;
-        inputFile >> M >> N;
-
-        if (M <= 0 || N <= 0) { // Validación de M y N positivos
-            return "ERROR E0";
-        }
-
-        grid = Grid(M, N);
-
-        int tomX, tomY, jerryX, jerryY;
-        inputFile >> tomX >> tomY >> jerryX >> jerryY;
-        tom = Position(tomX, tomY);
-        jerry = Position(jerryX, jerryY);
-
-        if (!grid.isPositionValid(tom) || !grid.isPositionValid(jerry)) { // Validación de posiciones válidas para Tom y Jerry
-            return "ERROR E1";
-        }
-
-        if (tom.getX() == jerry.getX() && tom.getY() == jerry.getY()) { // Validación de posiciones distintas para Tom y Jerry (no pueden estar en la misma posición)
-            return "ERROR E2";
-        }
-
-        grid.placeTom(tom);
-        grid.placeJerry(jerry);
-
-        int x1, y1, x2, y2;
-        while (inputFile >> x1 >> y1 >> x2 >> y2) {
-            Obstacle obs(Position(x1, y1), Position(x2, y2)); // Validación de posiciones válidas para los obstáculos
-            if (!grid.addObstacle(obs)) {
-                return "ERROR E3";
-            }
-            obstacles.push_back(obs);
-        }
-
-        // Resto del código de validación
-
-        return ""; // Sin error
-    }
-
-    static void writeOutputFile(const string& filename, const string& content) { // Función para escribir el archivo de salida (TOM1.RES)
-        ofstream outputFile(filename);
-        if (!outputFile.is_open()) {
-            cerr << "ERROR: Cannot open output file." << endl;
-            return;
-        }
-        outputFile << content;
-        outputFile.close();
-    }
-};
 
 struct Node { // Estructura para representar un nodo (posición) en el BFS
     int x, y, dist;
@@ -286,36 +115,6 @@ void findAllPaths(const Grid& grid, const Position& current, const Position& goa
     visited[current.getX()][current.getY()] = false;
 }
 
-void printGrid(const Grid& grid) {
-    const char horizontalWall = '-';
-    const char verticalWall = '|';
-    const char corner = '+';
-
-    // Dibujar la parte superior de la cuadrícula
-    cout << corner;
-    for (int j = 0; j < grid.getN(); ++j) {
-        cout << horizontalWall << horizontalWall << horizontalWall << corner;
-    }
-    cout << endl;
-
-    // Dibujar las filas de la cuadrícula
-    for (int i = 0; i < grid.getM(); ++i) {
-        // Línea con las celdas y paredes verticales
-        cout << verticalWall;
-        for (int j = 0; j < grid.getN(); ++j) {
-            cout << ' ' << grid.getCell(i, j) << ' ' << verticalWall;
-        }
-        cout << endl;
-
-        // Línea con las paredes horizontales y esquinas
-        cout << corner;
-        for (int j = 0; j < grid.getN(); ++j) {
-            cout << horizontalWall << horizontalWall << horizontalWall << corner;
-        }
-        cout << endl;
-    }
-}
-
 int main() {
     Grid grid(0, 0); // Matriz de celdas (M x N)
     Position tom(0, 0); // Posición de Tom (x, y)
@@ -339,6 +138,7 @@ int main() {
     inputFileTest.close();
 
     string error = FileParser::parseInputFile(inputFilename, grid, tom, jerry, obstacles); // Leer archivo de entrada (TOM1.DAT) y validar datos de entrada (M, N, Tom, Jerry, obstáculos)
+    cout << "Fase 1" << endl;
     if (!error.empty()) { // Validación de error en la lectura del archivo de entrada
         FileParser::writeOutputFile(outputFilename, error); // Escribir error en el archivo de salida (TOM1.RES) y terminar el programa
         cerr << error << endl;
@@ -361,9 +161,21 @@ int main() {
         printFileContent(outputFilename);
 
         cout << endl;
-        printFileContent(outputFilename2);
-    }
+        cout << "Fase 2" << endl;
+        cout << "Camino de Tom a Jerry mas corto:" << endl;
+        // Crear un puntero a GridPrinter y asignarle una instancia de BasicGridPrinter
+        GridPrinter* printer = new BasicGridPrinter();
 
+        // Usar el printer para imprimir el grid
+        printer->print(grid);
+
+        // Liberar la memoria
+        delete printer;
+        cout << endl;
+        printFileContent(outputFilename2);
+        cout << endl;
+    }
+    cout << "Fase 3" << endl;
     // Copiando TOM1.DAT a TOM3.DAT
     ifstream src("TOM1.DAT", ios::binary);
     ofstream dst("TOM3.DAT", ios::binary);
@@ -393,12 +205,6 @@ int main() {
     for (const auto& p : pathCount) {
         cout << "Longitud: " << p.first << ", Caminos: " << p.second << endl;
     }
-
-
-// Después de procesar TOM1.DAT, TOM2.DAT y TOM3.DAT
-    printGrid(grid);
-
-    return 0;
 
     return 0;
 }

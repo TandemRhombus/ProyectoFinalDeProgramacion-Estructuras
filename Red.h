@@ -100,7 +100,7 @@ public:
     }
 
     // Función amiga para acceder a miembros privados
-    friend vector<pair<int, int>> findPath(const Grid& grid, const Position& start, const Position& goal);
+    friend vector<pair<int, int>> findPath(const Grid& grid, const Position& start, const Position& goal); //funcion para encontrar el camino mas corto de tom a jerry
 };
 
 #endif //PROYECTOFINALDEPROGRAMACION_ESTRUCTURAS_RED_H

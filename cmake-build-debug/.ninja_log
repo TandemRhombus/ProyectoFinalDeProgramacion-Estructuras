@@ -1,17 +1,9 @@
 # ninja log v5
-6	481	7241558057212426	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Red.cpp.obj	9c8710be3d8d7596
-36	139	7241558053784105	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Obstaculo.cpp.obj	b9eabb276cfb5ce0
-1	179	7241568528402451	build.ninja	5a6faaa70e62fa28
-833	1113	7241566467392089	ProyectoFinalDeProgramacion_Estructuras.exe	6ee6fe5742c0954e
-3	833	7241566464620725	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
-12	459	7241558056997443	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Archivos.cpp.obj	8bf20adc4962412c
-19	139	7241558053784105	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Posicion.cpp.obj	1ecf0cf5a8c40577
-19	379	7241566460108131	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/GridViewer.cpp.obj	7b9141eb7f4a9506
-1	111	7241568528402451	build.ninja	5a6faaa70e62fa28
+0	116	7241615665110471	build.ninja	5a6faaa70e62fa28
 18	121	7241568529779704	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Obstaculo.cpp.obj	b9eabb276cfb5ce0
-11	474	7241568533309711	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/GridViewer.cpp.obj	7b9141eb7f4a9506
-2	677	7241568535323922	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Archivos.cpp.obj	8bf20adc4962412c
-5	869	7241568537241668	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
-869	1118	7241568539703059	ProyectoFinalDeProgramacion_Estructuras.exe	e8f0b899662b1e7
+6	481	7241558057212426	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Red.cpp.obj	9c8710be3d8d7596
 2	683	7241568918002024	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj	a4d8adce2f04bdcd
-683	949	7241568920631973	ProyectoFinalDeProgramacion_Estructuras.exe	e8f0b899662b1e7
+2	265	7241571856111615	ProyectoFinalDeProgramacion_Estructuras.exe	c9f38683ff5c584b
+2	677	7241568535323922	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Archivos.cpp.obj	8bf20adc4962412c
+19	139	7241558053784105	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Posicion.cpp.obj	1ecf0cf5a8c40577
+11	474	7241568533309711	CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/GridViewer.cpp.obj	7b9141eb7f4a9506

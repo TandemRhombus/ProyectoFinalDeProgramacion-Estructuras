@@ -61,12 +61,6 @@ build CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Obstaculo.cpp.obj: 
   OBJECT_DIR = CMakeFiles\ProyectoFinalDeProgramacion_Estructuras.dir
   OBJECT_FILE_DIR = CMakeFiles\ProyectoFinalDeProgramacion_Estructuras.dir
 
-build CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Posicion.cpp.obj: CXX_COMPILER__ProyectoFinalDeProgramacion_Estructuras_unscanned_Debug C$:/Users/PC$ LITLE$ OWL/CLionProjects/ProyectoFinalDeProgramacion-Estructuras/Posicion.cpp || cmake_object_order_depends_target_ProyectoFinalDeProgramacion_Estructuras
-  DEP_FILE = CMakeFiles\ProyectoFinalDeProgramacion_Estructuras.dir\Posicion.cpp.obj.d
-  FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\ProyectoFinalDeProgramacion_Estructuras.dir
-  OBJECT_FILE_DIR = CMakeFiles\ProyectoFinalDeProgramacion_Estructuras.dir
-
 build CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Archivos.cpp.obj: CXX_COMPILER__ProyectoFinalDeProgramacion_Estructuras_unscanned_Debug C$:/Users/PC$ LITLE$ OWL/CLionProjects/ProyectoFinalDeProgramacion-Estructuras/Archivos.cpp || cmake_object_order_depends_target_ProyectoFinalDeProgramacion_Estructuras
   DEP_FILE = CMakeFiles\ProyectoFinalDeProgramacion_Estructuras.dir\Archivos.cpp.obj.d
   FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
@@ -87,7 +81,7 @@ build CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/GridViewer.cpp.obj:
 #############################################
 # Link the executable ProyectoFinalDeProgramacion_Estructuras.exe
 
-build ProyectoFinalDeProgramacion_Estructuras.exe: CXX_EXECUTABLE_LINKER__ProyectoFinalDeProgramacion_Estructuras_Debug CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Obstaculo.cpp.obj CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Posicion.cpp.obj CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Archivos.cpp.obj CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/GridViewer.cpp.obj
+build ProyectoFinalDeProgramacion_Estructuras.exe: CXX_EXECUTABLE_LINKER__ProyectoFinalDeProgramacion_Estructuras_Debug CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/main.cpp.obj CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Obstaculo.cpp.obj CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/Archivos.cpp.obj CMakeFiles/ProyectoFinalDeProgramacion_Estructuras.dir/GridViewer.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\ProyectoFinalDeProgramacion_Estructuras.dir

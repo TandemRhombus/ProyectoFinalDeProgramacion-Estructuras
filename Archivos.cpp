@@ -39,10 +39,33 @@ string FileParser::parseInputFile(const string &filename, Grid &grid, Position &
         }
         obstacles.push_back(obs);
     }
+    //E4 los vertices que representan un obstaculo no cumplen una relacion valida entre si
+    for (int i = 0; i < obstacles.size(); i++) {
+        if (obstacles[i].topLeft.x > obstacles[i].bottomRight.x || obstacles[i].topLeft.y > obstacles[i].bottomRight.y) {
+            return "ERROR E4";
+        }
+    }
 
-    // Resto del código de validación
+    //E5 dos o mas obstaculos se solapan
+    for (int i = 0; i < obstacles.size(); i++) {
+        for (int j = i + 1; j < obstacles.size(); j++) {
+            if (obstacles[i].overlaps(obstacles[j])) {
+                return "ERROR E5";
+            }
+        }
+    }
 
-    return ""; // Sin error
+    //E6 Tom o Jerry estan en una casilla ocupada por un obstaculo
+    for (int i = 0; i < obstacles.size(); i++) {
+        if (tom.x >= obstacles[i].topLeft.x && tom.x <= obstacles[i].bottomRight.x && tom.y >= obstacles[i].topLeft.y && tom.y <= obstacles[i].bottomRight.y) {
+            return "ERROR E6";
+        }
+        if (jerry.x >= obstacles[i].topLeft.x && jerry.x <= obstacles[i].bottomRight.x && jerry.y >= obstacles[i].topLeft.y && jerry.y <= obstacles[i].bottomRight.y) {
+            return "ERROR E6";
+        }
+    }
+
+    return "";  // Sin error
 }
 
 void FileParser::writeOutputFile(const string &filename, const string &content) {

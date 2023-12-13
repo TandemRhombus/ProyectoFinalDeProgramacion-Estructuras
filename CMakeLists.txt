@@ -7,7 +7,6 @@ add_executable(ProyectoFinalDeProgramacion_Estructuras
         main.cpp
         Obstaculo.cpp
         Obstaculo.h
-        Posicion.cpp
         Posicion.h
         Red.h
         Archivos.cpp

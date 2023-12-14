@@ -1,0 +1,42 @@
+=== Ayuda del Programa ===
+Bienvenido al programa de resolución del laberinto de Tom y Jerry.
+Este programa genera por default a TOM1.DAT si gustas modificar el archivo puedes hacerlo desde el archivo TOM1.DAT
+Apartir de TOM1.DAT gira el funcionamiento del programa.
+
+=== Formato del archivo TOM1.DAT ===
+La primera linea del archivo contiene dos enteros separados por un espacio, M y N, que representan el tamaño de la matriz de celdas.
+La segunda linea del archivo contiene cuatro enteros separados por un espacio, x1, y1, x2, y2, que representan la posición de Tom y Jerry.
+Las siguientes lineas y dependiendo del tamaño de la matriz se colocaran las coordenadas para los obstaculos.
+
+Dependiendo de lo anterior se va a generar un tablero el cual sera almacenado en TOM1.RES el cual tambien puede marcarte errores que van del E0 al E6
+Algunos ejemplos de errores son:
+E0: M y N no son enteros positivos.
+E1: Tom y Jerry se encuentran en la misma posición.
+
+Si TOM1.RES no tiene errores se generara un TOM2.RES el cual contendra el camino mas corto de Tom a Jerry.
+
+=== Formato del archivo TOM2.RES ===
+El archivo contiene una serie de lineas, cada una con dos enteros separados por un espacio, x y, que representan una posición en el camino de Tom a Jerry.
+Si no hay camino, el archivo contiene la palabra INALCANZABLE.
+
+De igual manera si TOM1.RES no tiene errores se generara un TOM3.RES el cual contendra la longitud de los caminos de Tom a Jerry y el numero de caminos de esa longitud.
+
+=== Formato del archivo TOM3.RES ===
+El archivo contiene una serie de lineas, cada una con dos enteros separados por un espacio, longitud y caminos, que representan la longitud de los caminos de Tom a Jerry y el numero de caminos de esa longitud.
+
+Los algoritmos utilizados para resolver el problema son:
+BFS: Para encontrar el camino mas corto de Tom a Jerry.
+DFS: Para encontrar todos los caminos de Tom a Jerry.
+
+Las estructuras utilizadas para resolver el problema son:
+Grid: Para representar la matriz de celdas.
+Position: Para representar una posición (x, y).
+Obstacle: Para representar un obstáculo.
+Node: Para representar un nodo (posición) en el BFS.
+
+Las estructuras de datos utilizadas para resolver el problema son:
+vector: Para representar la matriz de celdas.
+queue: Para representar la cola del BFS.
+map: Para representar la tabla de frecuencias de los caminos de Tom a Jerry.
+
+Esperamos que disfrutes el programa.

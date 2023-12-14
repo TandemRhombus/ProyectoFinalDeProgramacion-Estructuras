@@ -115,7 +115,63 @@ void findAllPaths(const Grid& grid, const Position& current, const Position& goa
     visited[current.getX()][current.getY()] = false;
 }
 
+// Esta función escribe el contenido de ayuda en el archivo "ayuda.txt"
+void writeHelpToFile() {
+    ofstream helpFile("ayuda.txt");
+
+    if (!helpFile.is_open()) {
+        cerr << "ERROR: No se pudo abrir el archivo de ayuda." << endl;
+        return;
+    }
+
+    helpFile << "=== Ayuda del Programa ===" << endl;
+    helpFile << "Bienvenido al programa de resolución del laberinto de Tom y Jerry." << endl;
+    helpFile << "Este programa genera por default a TOM1.DAT si gustas modificar el archivo puedes hacerlo desde el archivo TOM1.DAT" << endl;
+    helpFile << "Apartir de TOM1.DAT gira el funcionamiento del programa." << endl;
+    helpFile << "" << endl;
+    helpFile << "=== Formato del archivo TOM1.DAT ===" << endl;
+    helpFile << "La primera linea del archivo contiene dos enteros separados por un espacio, M y N, que representan el tamaño de la matriz de celdas." << endl;
+    helpFile << "La segunda linea del archivo contiene cuatro enteros separados por un espacio, x1, y1, x2, y2, que representan la posición de Tom y Jerry." << endl;
+    helpFile << "Las siguientes lineas y dependiendo del tamaño de la matriz se colocaran las coordenadas para los obstaculos." << endl;
+    helpFile << "" << endl;
+    helpFile << "Dependiendo de lo anterior se va a generar un tablero el cual sera almacenado en TOM1.RES el cual tambien puede marcarte errores que van del E0 al E6" << endl;
+    helpFile << "Algunos ejemplos de errores son:" << endl;
+    helpFile << "E0: M y N no son enteros positivos." << endl;
+    helpFile << "E1: Tom y Jerry se encuentran en la misma posición." << endl;
+    helpFile << "" << endl;
+    helpFile << "Si TOM1.RES no tiene errores se generara un TOM2.RES el cual contendra el camino mas corto de Tom a Jerry." << endl;
+    helpFile << "" << endl;
+    helpFile << "=== Formato del archivo TOM2.RES ===" << endl;
+    helpFile << "El archivo contiene una serie de lineas, cada una con dos enteros separados por un espacio, x y, que representan una posición en el camino de Tom a Jerry." << endl;
+    helpFile << "Si no hay camino, el archivo contiene la palabra INALCANZABLE." << endl;
+    helpFile << "" << endl;
+    helpFile << "De igual manera si TOM1.RES no tiene errores se generara un TOM3.RES el cual contendra la longitud de los caminos de Tom a Jerry y el numero de caminos de esa longitud." << endl;
+    helpFile << "" << endl;
+    helpFile << "=== Formato del archivo TOM3.RES ===" << endl;
+    helpFile << "El archivo contiene una serie de lineas, cada una con dos enteros separados por un espacio, longitud y caminos, que representan la longitud de los caminos de Tom a Jerry y el numero de caminos de esa longitud." << endl;
+    helpFile << "" << endl;
+    helpFile << "Los algoritmos utilizados para resolver el problema son:" << endl;
+    helpFile << "BFS: Para encontrar el camino mas corto de Tom a Jerry." << endl;
+    helpFile << "DFS: Para encontrar todos los caminos de Tom a Jerry." << endl;
+    helpFile << "" << endl;
+    helpFile << "Las estructuras utilizadas para resolver el problema son:" << endl;
+    helpFile << "Grid: Para representar la matriz de celdas." << endl;
+    helpFile << "Position: Para representar una posición (x, y)." << endl;
+    helpFile << "Obstacle: Para representar un obstáculo." << endl;
+    helpFile << "Node: Para representar un nodo (posición) en el BFS." << endl;
+    helpFile << "" << endl;
+    helpFile << "Las estructuras de datos utilizadas para resolver el problema son:" << endl;
+    helpFile << "vector: Para representar la matriz de celdas." << endl;
+    helpFile << "queue: Para representar la cola del BFS." << endl;
+    helpFile << "map: Para representar la tabla de frecuencias de los caminos de Tom a Jerry." << endl;
+    helpFile << "" << endl;
+    helpFile << "Esperamos que disfrutes el programa." << endl;
+
+    helpFile.close();
+}
+
 int main() {
+    writeHelpToFile();
     Grid grid(0, 0); // Matriz de celdas (M x N)
     Position tom(0, 0); // Posición de Tom (x, y)
     Position jerry(0, 0); // Posición de Jerry (x, y) (x != y)

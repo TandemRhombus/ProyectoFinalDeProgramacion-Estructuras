@@ -10,6 +10,7 @@
 #include "red.h"
 #include "GridViewer.h"
 #include "Posicion.h"
+#include <windows.h>
 
 using namespace std;
 
@@ -171,15 +172,22 @@ void writeHelpToFile() {
 }
 
 int main() {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     writeHelpToFile();
     Grid grid(0, 0); // Matriz de celdas (M x N)
     Position tom(0, 0); // Posición de Tom (x, y)
     Position jerry(0, 0); // Posición de Jerry (x, y) (x != y)
     vector<Obstacle> obstacles; // Vector de obstáculos
 
+    // Definir colores de texto y fondo
+    int textColor = 11; // Color de texto (en este caso, cian)
+    int textColorVerde = 10; // Color de texto (en este caso, verde)
+    int bgColor = 4;    // Color de fondo (en este caso, rojo)
+
     string inputFilename = "TOM1.DAT";
     string outputFilename = "TOM1.RES";
-
+    // Establecer los colores
+    SetConsoleTextAttribute(hConsole, textColor);
     ifstream inputFileTest(inputFilename);
     if (!inputFileTest.good()) {
         ofstream outputFileTest(inputFilename);
@@ -217,6 +225,9 @@ int main() {
         printFileContent(outputFilename);
 
         cout << endl;
+        // Restaurar colores originales
+        SetConsoleTextAttribute(hConsole, 7); // 7 restaura los colores a los predeterminados
+        SetConsoleTextAttribute(hConsole, textColorVerde);
         cout << "Fase 2" << endl;
         cout << "Camino de Tom a Jerry mas corto:" << endl;
         // Crear un puntero a GridPrinter y asignarle una instancia de BasicGridPrinter
@@ -231,6 +242,8 @@ int main() {
         printFileContent(outputFilename2);
         cout << endl;
     }
+    SetConsoleTextAttribute(hConsole, 7); // 7 restaura los colores a los predeterminados
+    SetConsoleTextAttribute(hConsole, 5);
     cout << "Fase 3" << endl;
     // Copiando TOM1.DAT a TOM3.DAT
     ifstream src("TOM1.DAT", ios::binary);
@@ -261,6 +274,8 @@ int main() {
     for (const auto& p : pathCount) {
         cout << "Longitud: " << p.first << ", Caminos: " << p.second << endl;
     }
-
+    SetConsoleTextAttribute(hConsole, 7); // 7 restaura los colores a los predeterminados
+    cout << endl;
+    system("pause");
     return 0;
 }
